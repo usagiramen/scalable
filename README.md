@@ -1,2 +1,2 @@
-# un_scalable
+# scalable
 just a bunch of random scripts while learning Scala.
