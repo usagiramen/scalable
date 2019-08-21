@@ -1,18 +1,18 @@
 package tools {
-    class dimreduction
+    class DimensionReduction
 }
 
 import breeze.stats.mean
 import breeze.linalg._
 
-class dimreduction {
-    object CSVreader {
-        def read_csv(filename:String) : Array[Array[Double]] = {
-            io.Source.fromFile(filename)
-              .getLines()
-              .map(_.split(",").map(_.trim.toDouble))
-              .toArray
-        }
+class DimensionReduction {
+    def read_csv(filename:String) : Array[Array[Double]] = {
+        val file = io.Source.fromFile(filename)
+                            .getLines()
+                            .map(_.split(",").map(_.trim.toDouble))
+                            .toArray
+
+       file
     }
 
     def covariance(data:DenseMatrix[Double]) : DenseMatrix[Double] = {
