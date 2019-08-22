@@ -26,13 +26,6 @@ class DimensionReduction {
 
     def pca(x:DenseMatrix[Double]) = {
 
-        val x = DenseMatrix((-1.0, -1.0, 0.0),
-                            (-2.0, -1.0, 2.0),
-                            (-3.0, -2.0, 0.0),
-                            (1.0, 1.0, 1.0),
-                            (2.0, 1.0, 1.0),
-                            (3.0, 2.0, 2.0),
-                            (1.0, 2.0, 1.0))
 
         // step 1: find the covariance matrix.
         val cov = covariance(x)
@@ -46,18 +39,15 @@ class DimensionReduction {
     }
 }
 
-class CSVReader {
-    def read_csv(filename:String) : Array[Array[Double]] = {
-        val file = io.Source.fromFile(filename)
+class DataInput {
+    def csv_to_matrix(filename:String) : DenseMatrix[Double] = {
+        // convert data from csv to 2d array.
+        val data = io.Source.fromFile(filename)
                             .getLines()
                             .map(_.split(",").map(_.trim.toDouble))
                             .toArray
 
-        file
-    }
-
-    def to_matrix(data: Array[Array[Double]]) : DenseMatrix[Double] = {
-        val matrix = DenseMatrix(data)
+        val matrix = DenseMatrix(data:_*)
 
         matrix
     }

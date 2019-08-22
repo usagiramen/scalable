@@ -2,12 +2,14 @@ import tools._
 
 object Main extends App {
 
-    val filename = "data/test.csv"
-    val x = new CSVReader
+    val file = new DataInput
+    val reduction = new DimensionReduction
 
-    val data = x.read_csv(filename)
-    val matrix = x.to_matrix(data)
+    val matrix = file.csv_to_matrix("data/matrix.csv")
 
-    println(data)
+    val red = reduction.pca(matrix)
+
+    red.productIterator.foreach(println)
+
 }
 
