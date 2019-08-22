@@ -1,20 +1,9 @@
-package tools {
-    class DimensionReduction
-}
+package tools
 
 import breeze.stats.mean
 import breeze.linalg._
 
 class DimensionReduction {
-    def read_csv(filename:String) : Array[Array[Double]] = {
-        val file = io.Source.fromFile(filename)
-                            .getLines()
-                            .map(_.split(",").map(_.trim.toDouble))
-                            .toArray
-
-       file
-    }
-
     def covariance(data:DenseMatrix[Double]) : DenseMatrix[Double] = {
         // reference: https://towardsdatascience.com/principal-component-analysis-your-tutorial-and-code-9719d3d3f376
 
@@ -54,5 +43,22 @@ class DimensionReduction {
         // step 3: reorder eigenvalues by variance.
 
         eigen
+    }
+}
+
+class CSVReader {
+    def read_csv(filename:String) : Array[Array[Double]] = {
+        val file = io.Source.fromFile(filename)
+                            .getLines()
+                            .map(_.split(",").map(_.trim.toDouble))
+                            .toArray
+
+        file
+    }
+
+    def to_matrix(data: Array[Array[Double]]) : DenseMatrix[Double] = {
+        val matrix = DenseMatrix(data)
+
+        matrix
     }
 }

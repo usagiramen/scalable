@@ -1,11 +1,12 @@
-import tools.DimensionReduction
+import tools._
 
 object Main extends App {
 
     val filename = "data/test.csv"
-    val x = new DimensionReduction
+    val x = new CSVReader
 
-    var data = x.read_csv(filename)
+    val data = x.read_csv(filename)
+    val matrix = x.to_matrix(data)
 
     println(data)
 }
