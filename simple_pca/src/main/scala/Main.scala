@@ -9,7 +9,5 @@ object Main extends App {
 
     val red = reduction.pca(matrix)
 
-    red.productIterator.foreach(println)
-
 }
 
