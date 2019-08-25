@@ -92,8 +92,10 @@ class DataInput {
         // convert data from csv to 2d array.
         val data = io.Source.fromFile(filename)
                             .getLines()
+                            .drop(1)  // remove headers.
                             .map(_.split(",").map(_.trim.toDouble))
                             .toArray
+                            .dropRight(1)
 
         val matrix = DenseMatrix(data:_*)
 
