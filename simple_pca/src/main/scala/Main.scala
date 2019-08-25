@@ -7,7 +7,7 @@ object Main extends App {
 
     val matrix = file.csv_to_matrix("data/matrix.csv")
 
-    val red = reduction.pca(matrix)
+    val red = reduction.pca(matrix, 0.97)
 
 }
 

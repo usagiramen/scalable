@@ -25,31 +25,66 @@ class DimensionReduction {
         covariance
     }
 
-    def pca(x:DenseMatrix[Double]) = {
+    def eigen_magic(cov:DenseMatrix[Double]) = {
+
+
+        // get eigenvectors and eigenvalues.
+        val es = eig(cov)
+        val evectors = es.eigenvectors
+        val evalues = es.eigenvalues
+                        .toArray
+
+        // pair each eigenvalues to its eigenvectors.
+        var pairs : Array[(Double, DenseVector[Double])] = Array()
+        for (idx <- 0 to (evectors.cols - 1)){
+            pairs = pairs :+ ((evalues(idx), evectors(::, idx)))
+        }
+ 
+        // reorder eigenvalues by variance
+        // and calculate cumulative sum.
+        val sorted = evalues.sorted(Ordering[Double].reverse).map{
+            v => v / evalues.reduceLeft{_ + _}
+        }
+        val cumsum = sorted.scanLeft(0.0)(_ + _)
+
+        (cumsum, pairs)
+    }
+
+    def projection_matrix(pairs:Array[(Double, DenseVector[Double])], vecs:Int, cols:Int) = {
+        
+        var projection = pairs(0)._2
+                                 .asDenseMatrix
+                                 .reshape(cols, 1)
+
+        for (idx <- 1 to (vecs - 1)){
+            val vector = pairs(idx)._2
+                                   .asDenseMatrix
+                                   .reshape(cols, 1)
+
+            projection = DenseMatrix.horzcat(projection, vector)
+        }
+
+        projection
+    }
+
+    def pca(x:DenseMatrix[Double], threshold:Double): DenseMatrix[Double] = {
 
 
         // step 1: find the covariance matrix.
         val cov = covariance(x)
-        print(cov.cols)
-        // step 2: calculate eigenvalues and eigenvectors.
-        val es = eig(cov)
 
-        val eigenvalues = es.eigenvalues
-                            .toArray
+        // step 2: get eigenpairs: an array of eigenvalues and
+        // eigenvectors tuple.
+        val (sum_values, pairs) = eigen_magic(cov)
+
+        // step 3: build projection matrix.
+        val vectors_to_keep = sum_values.indexWhere(_ >= threshold)
+        val projection = projection_matrix(pairs, vectors_to_keep, x.cols)
         
-        val eigenvectors = es.eigenvectors
+        // step 4: dot product raw data with projection matrix.
+        val output = x * projection
 
-        val eigenpairs = eigenvalues.foreach(values => (1, values))
-        println(eigenpairs)
-        println(eigenvectors)
-        println(eigenvectors(0, ::))
-
-        // eigenvalues.foreach(v => println(v))
-        // println(es.eigenvectors)
-        // eigenvectors.foreach(v => println(v))
-
-        // step 3: reorder eigenvalues by variance.
-
+        println(output)
     }
 }
 
