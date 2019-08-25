@@ -4,11 +4,10 @@ import breeze.stats.mean
 import breeze.linalg._
 
 class DimensionReduction {
-    def covariance(data:DenseMatrix[Double]) : DenseMatrix[Double] = {
+    private def covariance(data:DenseMatrix[Double]) : DenseMatrix[Double] = {
         /* 
         Calculate matrix covariance.
 
-        reference: https://towardsdatascience.com/principal-component-analysis-your-tutorial-and-code-9719d3d3f376
 
         */
 
@@ -25,7 +24,7 @@ class DimensionReduction {
         covariance
     }
 
-    def eigen_magic(cov:DenseMatrix[Double]) = {
+    private def eigen_magic(cov:DenseMatrix[Double]) = {
 
 
         // get eigenvectors and eigenvalues.
@@ -50,7 +49,7 @@ class DimensionReduction {
         (cumsum, pairs)
     }
 
-    def projection_matrix(pairs:Array[(Double, DenseVector[Double])], vecs:Int, cols:Int) = {
+    private def projection_matrix(pairs:Array[(Double, DenseVector[Double])], vecs:Int, cols:Int) = {
         
         var projection = pairs(0)._2
                                  .asDenseMatrix
@@ -84,7 +83,7 @@ class DimensionReduction {
         // step 4: dot product raw data with projection matrix.
         val output = x * projection
 
-        println(output)
+        output
     }
 }
 

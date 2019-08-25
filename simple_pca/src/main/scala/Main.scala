@@ -9,5 +9,6 @@ object Main extends App {
 
     val red = reduction.pca(matrix, 0.97)
 
+    println(red)
 }
 
