@@ -21,10 +21,17 @@ That's the gist of it. What PCA does is learn, "compress", and "reorganise" in a
 
 Basically, PCA can be broken down to 3 steps:
 
-**Step 1**: Build a covariance matrix. A covariance matrix *explains the relationship between different variables (features)*. Imagine you a dataset of 2 columns e.g. X and Y. You can easily explain their relationship via scatterplot.
+**Step 1**: Build a covariance matrix. A covariance matrix *explains the relationship between different variables (features)*. Imagine a dataset of 2 columns e.g. X and Y. You can easily explain their relationship via scatterplot.
 
 Obviously you cannot do that with 10,000 dimensions, so a covariance matrix is our mathematical reprensetation of these relationships.
 
+**Step 2**: Calculate eigenvectors and eigenvalues. Back to the X / Y scatterplot example earlier, imagine drawing 2 lines (which will be your vectors) that covers as much data as possible (measuring the variance of the data project onto the axes).
+
+Remember, the vectors are to "describe" how the plot looks like, not predict Y over X like regression. Example: vector a<sup>1</sup> to a<sup>2</sup> and vector b<sup>1</sup> to b<sup>2</sup>.
+
+What eigenvectors and eigenvalues does is "summarise" those vectors into a magical number, and eigenvalues is our magic number for the next step.
+
+**Step 3**:
 
 
 It accepts `threshold` argument that indicates the total percentage of variance to retain from the raw data.
