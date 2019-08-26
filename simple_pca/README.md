@@ -1,4 +1,4 @@
-# simple_pca
+# simple_pca explained
 
 This project is a simple script that ingest data input from CSV files, and computes the PCA vectors.
 
